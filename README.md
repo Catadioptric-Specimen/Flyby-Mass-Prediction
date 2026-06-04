@@ -14,6 +14,7 @@ If you wish, you can also adjust the error tolerances:
 - r_dEnergy is the maximum relative change in probe energy after a step
 - a_dEnergy is the maximum absolute change in probe energy after a step
 - p_dEnergy is the minimum relative change in probe energy after a step
+
 Note: while p_dEnergy does enable some simulations to be run faster
 (such as distant flybys since it will dynamically increase timestep size), 
 it is often recommended to set it to 0.
