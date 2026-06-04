@@ -1,9 +1,6 @@
 import numpy as np
 from scipy.linalg import norm, svd, lstsq
 import matplotlib.pyplot as plt
-from mpl_toolkits import mplot3d
-from scipy import optimize
-import random
 
 # The number
 G = 6.67e-11
