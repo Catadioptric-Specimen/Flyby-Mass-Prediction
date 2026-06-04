@@ -119,7 +119,7 @@ x_vectors = np.array(x_vals)
 x = v_vectors[:, 0]
 y = v_vectors[:, 1]
 
-# Fit the hodograph circle using a monte-carlo method
+# Fit the hodograph circle using linear regression
 def fit_circle_3d(points):
     # Mean-center points
     centroid = np.mean(points, axis=0)
@@ -131,7 +131,6 @@ def fit_circle_3d(points):
         normal = V[2, :] # Normal is the last row of V (smallest singular value)
     # If scipy says too large of a matrix to do SVD, sample a random set of 2^16
     except:
-        print("augh!")
         half_size = len(centered) // 2
         half_indeces = np.random.choice(len(centered), size=2**8, replace=False)
         U, S, V = svd(centered[half_indeces])
@@ -191,13 +190,18 @@ def plot_3d_circle(ax, center, radius, normal, n_points=100):
 fitted_center, fitted_r, fitted_normal = fit_circle_3d(v_vectors)
 print(fitted_normal)
 
+# Print Fitted Circle Parameters
 print("Hodograph Circle Parameters:", fitted_center[0], fitted_center[1], fitted_r)
+
+# Find Mass Estimate
 L = norm( np.cross(x_vectors[-1], v_vectors[-1]) )
 M_estimate = fitted_r * L / G
+
+# Print Mass Estimate
 print("Estimate of Asteroid Mass", M_estimate )
 print("Error in Estimate of Asteroid Mass", (M_estimate - np.sum(Asteroid_Mass))/np.sum(Asteroid_Mass))
 
-
+# Draw Probe Trajectory and Asteroids
 fig = plt.figure()
 ax = plt.axes(111, projection='3d')
 ax.plot3D(x_vectors[:, 0], x_vectors[:, 1], x_vectors[:, 2], 'blue', label='position vectors')
@@ -218,6 +222,7 @@ ax.set_zlim(np.mean(x_vectors[:, 2]) - r, np.mean(x_vectors[:, 2]) + r)
 ax.set_box_aspect((1,1,1))
 plt.show()
 
+# Draw Velocity Hodograph
 fig = plt.figure()
 ax = plt.axes(111, projection='3d')
 ax.plot3D(v_vectors[:, 0], v_vectors[:, 1], v_vectors[:, 2], color='blue', label='velocity vectors')
@@ -233,7 +238,7 @@ ax.set_zlim(np.mean(v_vectors[:, 2]) - r, np.mean(v_vectors[:, 2]) + r)
 ax.set_box_aspect((1,1,1))
 plt.show()
 
-
+# Find Kinetic and Potential Energies of the Probe
 KE = 0.5 * Probe_Mass * norm(v_vectors, axis = 1) * norm(v_vectors, axis = 1)
 PE = []
 for j in range( len(t_vals) ):
@@ -242,6 +247,7 @@ for j in range( len(t_vals) ):
         PE_temp -= G * Probe_Mass * Asteroid_Mass[i] / norm(x_vectors[j] - Asteroid_Location[i])
     PE.append(PE_temp)
 
+# Plot Probe KE and PE
 plt.plot(t_vals, KE, label='Kinetic Energy')
 plt.plot(t_vals, PE, label='Potential Energy')
 plt.title("Energy Graph")
@@ -250,6 +256,7 @@ plt.ylabel("Energy (J)")
 plt.grid(True)
 plt.show()
 
+# Plot Probe Total Mechanical Energy
 plt.plot(t_vals, KE + PE, label='Total Energy')
 plt.title("Total Mechanical Energy")
 plt.xlabel("Time (s)")
