@@ -1,4 +1,4 @@
-# Orbit-Solver
+# Flyby-Mass-Prediction
 Satellite orbit solver with dynamic timesteps to constrain the error in energy within a specified tolerance.
 Also predicts the mass of the asteroid based on the probe velocity data by fitting a circle.
 
