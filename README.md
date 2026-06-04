@@ -8,9 +8,15 @@ you want to flyby (SI units).
 
 Fill the entries of Probe_Coords with the initial position and velocity of the probe (SI units).
 
-Set tf (end time in seconds) and dt (timestep size in seconds).
+Set tf (end time in seconds) and dt (timestep size in seconds) to your heart's content.
 
-If you wish, you can also adjust the error tolerances (note: often it is reccomended to set p_dEnergy to 0)
+If you wish, you can also adjust the error tolerances:
+r_dEnergy is the maximum relative change in probe energy after a step
+a_dEnergy is the maximum absolute change in probe energy after a step
+p_dEnergy is the minimum relative change in probe energy after a step
+Note: while p_dEnergy does enable some simulations to be run faster
+(such as distant flybys since it will dynamically increase timestep size), 
+it is often recommended to set it to 0.
 
 # Outputs:
 The console returns:
@@ -22,5 +28,5 @@ The console returns:
 The plots returned are:
 1. Asteroid (black) and flyby trajectory of the probe (blue)
 2. Plot of velocity vectors (blue) with fitted circle (red)
-3. Plot of probe kinetic and potential energy
+3. Plot of probe kinetic (blue) and potential energy (orange)
 4. Plot of total probe mechanical energy
